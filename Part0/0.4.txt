@@ -1,9 +1,11 @@
-browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
-server-->browser: spa.html
+browser->server: HTTP POST Submit Event "Adress Note"
+server-->browser: URL Redirect 302
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML-code
 browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
 server-->browser: main.css
-browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
-server-->browser: spa.js
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
 
 note over browser:
 browser starts executing js-code
@@ -11,7 +13,8 @@ that requests JSON data from server
 end note
 
 browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
-server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+server-->browser: data.json
+
 
 note over browser:
 browser executes the event handler
