@@ -1,0 +1,9 @@
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: Status code 201
+
+note over browser:
+The javascript in the client side
+starts to use the new json data
+to create a new note without
+reloading the page
+end note
