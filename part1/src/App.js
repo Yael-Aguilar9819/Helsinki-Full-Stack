@@ -1,20 +1,45 @@
 import React from 'react'
 // console.log("staring to know")
-const now = new Date();
-const a = 15
-const b = 20
 
 
-const App = () => (
 
-  
+
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+const Hello = (props) => {
+  return (
     <div>
-      <p>Hello world, it is {now.toString()}</p>
-      <p>
-        {a} plus {b} is {a + b}
-      </p>
+      Hello {props.name}, you are {props.age} years old
     </div>
-)
+  )
+}
+
+let user23 = {avatarUrl:"www.htsd.com", name:"Joe", age:50, eyeColor:"blue"}; 
+function Avatar(props) {
+  return (
+    <div>
+      <p>Hello {props.avatarUrl}</p>
+      <p>hi mr {props.name}</p>
+    </div>
+  );
+}
+
+const App = () => {
+  const name = 'Peter'
+  const age = 10
+
+  return (
+    <>
+      <Avatar {...user23}/>
+      <Welcome name="josh"/>
+      <h1>Greetings</h1>
+      <Hello name="Maya" age={26 + 10}/>
+      <Hello name={name} age={age}/>
+    </>
+  )
+}
 
 export default App
 
