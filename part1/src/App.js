@@ -22,7 +22,7 @@ function Avatar(props) {
     <div>
       <p>Hello {props.avatarUrl}</p>
       <p>hi mr {props.name}</p>
-    </div>
+    </div>  
   );
 }
 
