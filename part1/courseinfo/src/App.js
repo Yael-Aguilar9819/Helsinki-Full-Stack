@@ -8,18 +8,28 @@ const Header = (props) => {
   )
 }
 
+
+const Part = (props) => {
+  return (
+    <p>{props.part_of_course} {props.exercise_part}</p>
+  )
+}
+
 const Content = (props) => {
   let array_of_p = []
   for (let i = 0; i < props.parts_of_course.length; i++) {
-    array_of_p.push(<p>{props.parts_of_course[i]} {props.exercise_parts[i]}</p>)
-
+    // array_of_p.push({props.parts_of_course} {props.exercise_parts[i]})
+    array_of_p.push(
+      <Part key={props.parts_of_course[i]} 
+      part_of_course={props.parts_of_course[i]} 
+      exercise_part={props.exercise_parts[i]}/>)
   }
-    return (
-      <>
-      {array_of_p}
-      </>
-    )
-  
+  return (
+    <>
+    {array_of_p}
+    </>
+  )
+
 }
 
 const Total = (props) => {
