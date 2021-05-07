@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 
-
+const Title = ({text}) => {
+  return (
+    <h1>{text}</h1>
+  )
+}
 
 const ButtonUsingFunction = ({text, functionThatChangeState}) => {
   return (
@@ -20,6 +24,11 @@ const randomNumberFrom0ToRange = (numberExceptTheLastOne) => Math.floor(Math.ran
 
 const createArrayFilledWith0 = (lengthOfArray) => Array(lengthOfArray).fill(0)
 
+const getIndexOfBiggestArrayOfInt = (arrayOfInts) => {
+  // arrayOfInts.reduce((currentBiggest, nextElem) => currentBiggest = Math.max(currentBiggest, nextElem))
+  return arrayOfInts.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -38,19 +47,24 @@ const App = () => {
     setSelected(randomNumberFrom0ToRange(anecdotes.length))
   }
 
+  const biggestNumberInArrayIndex = getIndexOfBiggestArrayOfInt(NB)
+
   const vote = () => {
     const copy = [...NB]
     copy[selected] += 1 
-    console.log(copy[selected])
     setVotes(copy)
   }
 
   return (
     <div>
+      <Title text="Anecdote of the day."/>
       {anecdotes[selected]}
       <VoteStatistic numberOfVotes={NB[selected]}/>
       <ButtonUsingFunction text="Vote" functionThatChangeState={vote}/>
       <ButtonUsingFunction text="Next anecdote" functionThatChangeState={changeSelectionRandomly}/>
+      <Title text="Anecdote with most votes"/>
+      {anecdotes[biggestNumberInArrayIndex]}
+      <VoteStatistic numberOfVotes={NB[biggestNumberInArrayIndex]}/>
     </div>
   )
 }
