@@ -7,7 +7,33 @@ const Title = ({text}) => {
   )
 }
 
-const sumAllIntsInList = (listOfInt) => listOfInt.reduce((accumulator, current) => accumulator + current)
+
+const Statistics = ({listOfAllValues}) => {
+  if (listOfAllValues.reduce((accumulator, current) => accumulator + current) === 0) return null
+
+  const goodCat1 = listOfAllValues[0]
+  const neutralCat2 = listOfAllValues[1]
+  const badCat3 = listOfAllValues[2]
+
+  return (
+    <>
+    <Title text="Statistics"/>
+    <Statistic text="good" valueToShow={goodCat1}/>
+    <Statistic text="neutral" valueToShow={neutralCat2}/>
+    <Statistic text="bad" valueToShow={badCat3}/>
+    <Statistic text="all" valueToShow={sumAllIntsInList(listOfAllValues)}/>
+    <Statistic text="average" valueToShow={getAverage(listOfAllValues)}/>
+    <Statistic text="positive" valueToShow={(goodCat1 / sumAllIntsInList(listOfAllValues)) * 100 + "%"}/>
+    </>
+  )
+}
+
+
+const sumAllIntsInList = (listOfInt) => {
+  const valueAtEnd = listOfInt.reduce((accumulator, current) => accumulator + current)
+  if (valueAtEnd === 0) {return 1}
+  return valueAtEnd
+}
 
 const getAverage = (listOfCategories) => {
   const numberOf1Cat = listOfCategories[0]
@@ -19,10 +45,9 @@ const getAverage = (listOfCategories) => {
   const valueOfCat3 = -1
 
   return ((numberOf1Cat * valueOfCat1) + (numberOf2Cat * valueOfCat2) + (numberOf3Cat * valueOfCat3)) / sumAllIntsInList(listOfCategories)
-
 }
 
-const LabelInfo = ({text, valueToShow}) => {
+const Statistic = ({text, valueToShow}) => {
   return (
     <p>{text} {valueToShow}</p>
   )
@@ -49,13 +74,7 @@ const App = () => {
       <ButtonIncreaseByOne buttonText="good" functionToCall={setGood} valueToChange={good}/>
       <ButtonIncreaseByOne buttonText="neutral" functionToCall={setNeutral} valueToChange={neutral}/>
       <ButtonIncreaseByOne buttonText="bad" functionToCall={setBad} valueToChange={bad}/>
-      <Title text="Statistics"/>
-      <LabelInfo text="good" valueToShow={good}/>
-      <LabelInfo text="neutral" valueToShow={neutral}/>
-      <LabelInfo text="bad" valueToShow={bad}/>
-      <LabelInfo text="all" valueToShow={sumAllIntsInList(listOfAllValues)}/>
-      <LabelInfo text="average" valueToShow={getAverage(listOfAllValues)}/>
-      <LabelInfo text="positive" valueToShow={(good / sumAllIntsInList(listOfAllValues)) * 100 + "%"}/>
+      <Statistics listOfAllValues={listOfAllValues}/>
     </div>
   )
 }
