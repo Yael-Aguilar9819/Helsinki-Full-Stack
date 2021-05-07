@@ -2,17 +2,23 @@ import React, { useState } from 'react'
 
 
 
-const ButtonSelectRandomNumber = ({text, functionThatChangeState}) => {
+const ButtonUsingFunction = ({text, functionThatChangeState}) => {
   return (
-    <div>
+    <>
     <button onClick={functionThatChangeState}>{text}</button>
-    </div>
+    </>
   )
 }
 
+const VoteStatistic = ({numberOfVotes}) => {
+  return (
+    <p>Has {numberOfVotes} votes.</p>
+  )
+}
 
 const randomNumberFrom0ToRange = (numberExceptTheLastOne) => Math.floor(Math.random() * numberExceptTheLastOne)
 
+const createArrayFilledWith0 = (lengthOfArray) => Array(lengthOfArray).fill(0)
 
 const App = () => {
   const anecdotes = [
@@ -25,15 +31,26 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [NB, setVotes] = useState(createArrayFilledWith0(anecdotes.length))
+  // const NB = createArrayFilledWith0(anecdotes.length)
 
-  const changeSelection = () => {
+  const changeSelectionRandomly = () => {
     setSelected(randomNumberFrom0ToRange(anecdotes.length))
+  }
+
+  const vote = () => {
+    const copy = [...NB]
+    copy[selected] += 1 
+    console.log(copy[selected])
+    setVotes(copy)
   }
 
   return (
     <div>
       {anecdotes[selected]}
-      <ButtonSelectRandomNumber text="Next anecdote" functionThatChangeState={changeSelection}/>
+      <VoteStatistic numberOfVotes={NB[selected]}/>
+      <ButtonUsingFunction text="Vote" functionThatChangeState={vote}/>
+      <ButtonUsingFunction text="Next anecdote" functionThatChangeState={changeSelectionRandomly}/>
     </div>
   )
 }
