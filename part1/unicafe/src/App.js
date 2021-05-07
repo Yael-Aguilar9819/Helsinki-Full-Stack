@@ -7,6 +7,16 @@ const Title = ({text}) => {
   )
 }
 
+const TableRowWrapper = ({WrappedComponent}) => {
+  return (
+    <tr>
+      <td>
+        {WrappedComponent}
+      </td>
+    </tr>
+  )
+}
+
 
 const Statistics = ({listOfAllValues}) => {
   if (listOfAllValues.reduce((accumulator, current) => accumulator + current) === 0) return null
@@ -16,15 +26,17 @@ const Statistics = ({listOfAllValues}) => {
   const badCat3 = listOfAllValues[2]
 
   return (
-    <>
-    <Title text="Statistics"/>
-    <Statistic text="good" valueToShow={goodCat1}/>
-    <Statistic text="neutral" valueToShow={neutralCat2}/>
-    <Statistic text="bad" valueToShow={badCat3}/>
-    <Statistic text="all" valueToShow={sumAllIntsInList(listOfAllValues)}/>
-    <Statistic text="average" valueToShow={getAverage(listOfAllValues)}/>
-    <Statistic text="positive" valueToShow={(goodCat1 / sumAllIntsInList(listOfAllValues)) * 100 + "%"}/>
-    </>
+    <table>
+      <tbody>
+      <TableRowWrapper WrappedComponent={<Title text="Statistics"/>}/>
+      <TableRowWrapper WrappedComponent={<Statistic text="good" valueToShow={goodCat1}/>}/>
+      <TableRowWrapper WrappedComponent={<Statistic text="neutral" valueToShow={neutralCat2}/>}/>
+      <TableRowWrapper WrappedComponent={<Statistic text="bad" valueToShow={badCat3}/>}/>
+      <TableRowWrapper WrappedComponent={<Statistic text="all" valueToShow={sumAllIntsInList(listOfAllValues)}/>}/>
+      <TableRowWrapper WrappedComponent={<Statistic text="average" valueToShow={getAverage(listOfAllValues)}/>}/>
+      <TableRowWrapper WrappedComponent={<Statistic text="positive" valueToShow={(goodCat1 / sumAllIntsInList(listOfAllValues)) * 100 + "%"}/>}/>
+      </tbody>
+    </table>
   )
 }
 
@@ -49,7 +61,7 @@ const getAverage = (listOfCategories) => {
 
 const Statistic = ({text, valueToShow}) => {
   return (
-    <p>{text} {valueToShow}</p>
+    <p style={{margin: 0}}>{text} {valueToShow}</p>
   )
 }
 
