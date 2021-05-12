@@ -26,15 +26,19 @@ const App = ({notes_arg}) => {
   }
 
   const handleNoteChange = (event) => {
-    console.log(event.target.value)
     setNewNote(event.target.value)
   }
 
   return (
     <div>
       <h1>Notes</h1>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll ? 'important' : 'all' }
+        </button>
+      </div>
       <ul>
-        {notes.map(note => 
+        {notesToShow.map(note => 
           <Note key={note.id} note={note} />
           )}
       </ul>
