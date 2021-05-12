@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PersonName from './components/PersonName'
+import SubmitButton from './components/SubmitButton'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -13,13 +14,26 @@ const App = () => {
 
   const addPersons = (event) => {
     event.preventDefault()
-    console.log(persons)
+    
+    const found = trueIfStringFound(newName, persons.map(person => person.name))
+    if (found) {
+      window.alert(`${newName} is already added to phonebook`) 
+      return 0
+    }
+
     const newObjectPerson = {
       name : newName
     }
     setPersons(persons.concat(newObjectPerson))
     setNewName("")
   }
+
+  const trueIfStringFound = (stringToFind, arrayOfString) => {
+    if (arrayOfString.findIndex(elem => elem === stringToFind) === -1) return false
+    return true 
+  }
+
+  // const throwAlertIfTrue = booleanValue => 
 
   return (
     <div>
@@ -29,7 +43,7 @@ const App = () => {
           name: <input value={newName} onChange={handleNameChange}/>
         </div>
         <div>
-          <button type="submit" onClick={addPersons}>add</button>
+          <SubmitButton onClickFunc={addPersons} text={"add"}/>
         </div>
       </form>
       <h2>Numbers</h2>
