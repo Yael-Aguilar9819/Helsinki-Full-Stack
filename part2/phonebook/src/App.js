@@ -11,7 +11,11 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [nameToSearch, setNameToSearch] = useState('')
 
+  const handleSearchBoxChange = event => {
+    setNameToSearch(event.target.value)
+  }
 
   const handleNameChange = event => {
     setNewName(event.target.value)
@@ -36,6 +40,7 @@ const App = () => {
     }
     setPersons(persons.concat(newObjectPerson))
     setNewName("")
+    setNewNumber("")
   }
 
   const trueIfStringFound = (stringToFind, arrayOfString) => {
@@ -43,10 +48,23 @@ const App = () => {
     return true 
   }
 
+  const falseIfStringEmpty = str => str.length === 0 ? false : true
+
+  const filterToSearch = () => {
+    console.log(nameToSearch)
+    if (!falseIfStringEmpty(nameToSearch)) return elem => elem
+
+    return elem => {
+      return elem.name.toLowerCase().substr(0, nameToSearch.length) === nameToSearch
+    }
+  }
+
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <InputText functionControlChange={handleSearchBoxChange} currentInputControl={nameToSearch} textDisplay={"filter shown with"}/>      
+      <h2>Add a new person contact info</h2>
       <form>
         <InputText functionControlChange={handleNameChange} currentInputControl={newName} textDisplay={"name"}/>
         <InputText functionControlChange={handleNumberChange} currentInputControl={newNumber} textDisplay={"number"}/>
@@ -56,7 +74,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map(person => <PersonName key={person.name} name={person.name} number={person.number}/>)}
+        {persons.filter(filterToSearch()).map(person => <PersonName key={person.name} name={person.name} number={person.number}/>)}
       </ul>
     </div>
   )
