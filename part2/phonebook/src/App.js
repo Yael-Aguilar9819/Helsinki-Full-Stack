@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PersonName from './components/PersonName'
 import SubmitButton from './components/SubmitButton'
 import InputText from './components/InputText'
+import PersonForm from './components/PersonForm'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -62,13 +63,11 @@ const App = () => {
       <h2>Phonebook</h2>
       <InputText functionControlChange={handleSearchBoxChange} currentInputControl={nameToSearch} textDisplay={"filter shown with"}/>      
       <h2>Add a new person contact info</h2>
-      <form>
-        <InputText functionControlChange={handleNameChange} currentInputControl={newName} textDisplay={"name"}/>
-        <InputText functionControlChange={handleNumberChange} currentInputControl={newNumber} textDisplay={"number"}/>
-        <div>
-          <SubmitButton onClickFunc={addPersons} text={"add"}/>
-        </div>
-      </form>
+      <PersonForm
+        textInput1={<InputText functionControlChange={handleNameChange} currentInputControl={newName} textDisplay={"name"}/>} 
+        textInput2={<InputText functionControlChange={handleNumberChange} currentInputControl={newNumber} textDisplay={"number"}/>} 
+        submitButton={<SubmitButton onClickFunc={addPersons} text={"add"}/>}
+      />
       <h2>Numbers</h2>
       <ul>
         {persons.filter(filterToSearch()).map(person => <PersonName key={person.name} name={person.name} number={person.number}/>)}
