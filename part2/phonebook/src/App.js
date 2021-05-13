@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import PersonName from './components/PersonName'
 import SubmitButton from './components/SubmitButton'
 import InputText from './components/InputText'
 import PersonForm from './components/PersonForm'
+import PeopleDisplay from './components/PeopleDisplay'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -69,9 +69,7 @@ const App = () => {
         submitButton={<SubmitButton onClickFunc={addPersons} text={"add"}/>}
       />
       <h2>Numbers</h2>
-      <ul>
-        {persons.filter(filterToSearch()).map(person => <PersonName key={person.name} name={person.name} number={person.number}/>)}
-      </ul>
+      <PeopleDisplay personsArray={persons} filterToSearch={filterToSearch}/>
     </div>
   )
 }
