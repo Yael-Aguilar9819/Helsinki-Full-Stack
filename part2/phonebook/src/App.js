@@ -51,12 +51,9 @@ const App = () => {
   const falseIfStringEmpty = str => str.length === 0 ? false : true
 
   const filterToSearch = () => {
-    console.log(nameToSearch)
     if (!falseIfStringEmpty(nameToSearch)) return elem => elem
 
-    return elem => {
-      return elem.name.toLowerCase().substr(0, nameToSearch.length) === nameToSearch
-    }
+    return elem => elem.name.toLowerCase().substr(0, nameToSearch.length) === nameToSearch
   }
 
 
