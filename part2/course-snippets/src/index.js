@@ -2,19 +2,20 @@ import ReactDOM from 'react-dom'
 import App from './App.js'
 
 const ds = async url => {
-  const resp = await fetch(url)
-  return resp
+  const resp = await fetch(url);
+  if (resp.status !== 200) {
+    throw new Error(`cannot fetch data with error code: ${resp.status}`);
+  }
+  return resp.json();
 }
+ds('http://localhost:3001/notes').then(data => console.log("from notes: ",data))
 
-// ds('http://localhost:3001/notes').then(cs => console.log(cs.json()))
 
-axios.get('http://localhost:3001/notes').then(response => {
-  const notes = response.data
-  console.log(notes)
-})
-
-const promise2 = axios.get('http://localhost:3001/foobar')
-console.log(promise2)
+ds('http://localhost:3001/foobar')
+  .then(data => console.log("from notes: ", data))
+  .catch(err =>{
+    console.log("and error happened: ", err)}
+  )
 
 const notes = [
   {
