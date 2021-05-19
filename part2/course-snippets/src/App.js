@@ -1,11 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
 
 
-const App = ({notes_arg}) => {
-  const [notes, setNotes] = useState(notes_arg)
+const App = () => {
+  const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true) 
+
+  const getJson = async url => {
+    const resp = await fetch(url)
+    if (resp.status !== 200) {
+      throw new Error(`cannot fetch data with error code: ${resp.status}`);
+    }
+    return resp.json();
+  }
+  
+  useEffect(() => {
+    getJson('http://localhost:3001/notes')
+      .then(response => setNotes(response))
+      .catch(err => {
+        console.log(err)
+        setNotes([])
+        })
+  }, [])
 
   const notesToShow = showAll
     ? notes
