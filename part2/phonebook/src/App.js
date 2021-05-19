@@ -1,18 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SubmitButton from './components/SubmitButton'
 import InputText from './components/InputText'
 import PersonForm from './components/PersonForm'
 import PeopleDisplay from './components/PeopleDisplay'
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    {name: 'Ada Lovelace', number: '39-44-5323523'},
-    { name: 'Isaac Asimov', number: '12-43-234345' }
-  ]) 
+  // const [ persons, setPersons ] = useState([
+  //   { name: 'Arto Hellas', number: '040-123456' },
+  //   {name: 'Ada Lovelace', number: '39-44-5323523'},
+  //   { name: 'Isaac Asimov', number: '12-43-234345' }
+  // ]) 
+
+  const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [nameToSearch, setNameToSearch] = useState('')
+
+  
+  const getJson = async url => {
+    const resp = await fetch(url)
+    if (resp.status !== 200) {
+      throw new Error(`cannot fetch data with error code: ${resp.status}`);
+    }
+    return resp.json();
+  }
+  useEffect(() => {
+    getJson('http://localhost:3001/persons')
+      .then(personsJson => setPersons(personsJson))
+      .catch(err => {
+        console.log(err)
+      })
+  }, [])
 
   const handleSearchBoxChange = event => {
     setNameToSearch(event.target.value)
