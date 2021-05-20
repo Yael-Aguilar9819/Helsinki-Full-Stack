@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react'
+import SearchBar from './components/SearchBar'
 import './App.css';
 
 function App() {
+  const [searchText, setSearchText] = useState("")
+
+
+  //This is using the Controlled Component approach
+  //Without this function, it would be a read-only input
+  const handleSearchTextChange = (event) => {
+    setSearchText(event.target.value)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{margin: 10}}>
+        <p>Find Countries</p>
+        <SearchBar valueOfField={searchText} functionThatControlsChange={handleSearchTextChange}/>
     </div>
   );
 }
