@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import SearchBar from './components/SearchBar'
 import './App.css';
+import CountryInfoDisplayer from './components/CountryInfoDisplayer';
 
 function App() {
+  const [matchingCountries, setmatchingCountries] = useState([])
   const [searchText, setSearchText] = useState("")
 
 
@@ -12,10 +14,19 @@ function App() {
     setSearchText(event.target.value)
   }
 
+  //The access point to the Rest Api
+  useEffect(() => {
+    fetch("https://restcountries.eu/rest/v2/all")
+    .then(resp => resp.json())
+    .then(countryData => setmatchingCountries(countryData))  
+  }, [])
+
+
   return (
     <div style={{margin: 10}}>
         <p>Find Countries</p>
         <SearchBar valueOfField={searchText} functionThatControlsChange={handleSearchTextChange}/>
+        <CountryInfoDisplayer arrayOfCountries={matchingCountries}/>
     </div>
   );
 }
