@@ -1,6 +1,10 @@
 import React from 'react'
 
 const SingleCountryDescription = ({countrySelected}) => {
+    const styleOfImg = {
+        maxWidth: 150, 
+        maxHeight: 150
+    }
     return (
         <div>
         <h1>{countrySelected.name}</h1>
@@ -10,7 +14,7 @@ const SingleCountryDescription = ({countrySelected}) => {
         <ul>
             {countrySelected.languages.map(language => <li key={language.name}>{language.name}</li>)}
         </ul>
-        <p>flag: {<img src= {countrySelected.flag}></img>}  </p>
+        {<img alt={"flag of the country selected"} style={styleOfImg} src= {countrySelected.flag}></img>}
     </div>
     )
 }
