@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import SearchBar from './components/SearchBar'
-import './App.css';
 import CountryInfoDisplayer from './components/CountryInfoDisplayer';
+import './App.css';
 
 function App() {
   const [matchingCountries, setmatchingCountries] = useState([])
   const [searchText, setSearchText] = useState("")
 
+  // const sREACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
+
+  console.log(process.env);
 
   //This is using the Controlled Component approach
   //Without this function, it would be a read-only input
