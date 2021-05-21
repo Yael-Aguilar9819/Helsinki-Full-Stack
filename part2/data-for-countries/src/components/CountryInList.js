@@ -1,15 +1,15 @@
 import React from 'react'
 
-const CountryInList = ({countryObject, functionSetText}) => {
+const CountryInList = ({countryObject, functionChangeState}) => {
     const buttonStyle = {
         marginLeft: 6,
         maxHeight: 20
     }
-    
+
     return (
         <>
             <li>{countryObject.name}
-            <button onClick={() => functionSetText(countryObject.name.toLowerCase())} style={buttonStyle}>show</button>
+            <button onClick={() => functionChangeState(countryObject)} style={buttonStyle}>show</button>
             </li>
         </>
     )

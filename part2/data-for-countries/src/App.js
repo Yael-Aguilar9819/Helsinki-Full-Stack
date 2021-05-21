@@ -36,7 +36,7 @@ function App() {
     <div style={{margin: 10}}>
         <p>Find Countries</p>
         <SearchBar valueOfField={searchText} functionThatControlsChange={handleSearchTextChange}/>
-        <CountryInfoDisplayer arrayOfCountries={matchingCountries.filter(filterAboutCountryName())} functionSetText={setSearchText}/>
+        <CountryInfoDisplayer arrayOfCountries={matchingCountries.filter(filterAboutCountryName())}/>
     </div>
   );
 }

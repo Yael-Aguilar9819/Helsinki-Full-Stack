@@ -3,7 +3,7 @@ import SingleCountryDescription from "./SingleCountryDescription.js"
 import ListOfCountries from "./ListOfCountries.js"
 
 //This is the component that controls the logic and display of country info
-const CountryInfoDisplayer = ({arrayOfCountries, functionSetText}) => {
+const CountryInfoDisplayer = ({arrayOfCountries}) => {
     if (arrayOfCountries.length > 10) {
         return (
             <div>
@@ -15,7 +15,7 @@ const CountryInfoDisplayer = ({arrayOfCountries, functionSetText}) => {
     //if its between 1 and 10, we just use this component
     else if (arrayOfCountries.length > 1) {
         return (
-            <ListOfCountries arrayOfCountries={arrayOfCountries} functionSetText={functionSetText}/>
+            <ListOfCountries arrayOfCountries={arrayOfCountries}/>
         )
     }
 
