@@ -1,5 +1,6 @@
 import React from 'react'
 import SingleCountryDescription from "./SingleCountryDescription.js"
+import ListOfCountries from "./ListOfCountries.js"
 
 //This is the component that controls the logic and display of country info
 const CountryInfoDisplayer = ({arrayOfCountries}) => {
@@ -11,13 +12,10 @@ const CountryInfoDisplayer = ({arrayOfCountries}) => {
         )    
     }
 
+    //if its between 1 and 10, we just use this component
     else if (arrayOfCountries.length > 1) {
         return (
-            <ul>
-                {arrayOfCountries.map(countryObject => {
-                    return <li key={countryObject.name}>{countryObject.name}</li>}
-                )}
-            </ul>
+            <ListOfCountries arrayOfCountries={arrayOfCountries}/>
         )
     }
 
@@ -28,9 +26,10 @@ const CountryInfoDisplayer = ({arrayOfCountries}) => {
         )
       }
 
+    //If no country name includes part of the string, this will be the default message
     return (
         <p>
-            There's no country with this name in the database
+            There's no country with this name in the database.
         </p>
     )
 }
