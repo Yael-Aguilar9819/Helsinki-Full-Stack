@@ -1,8 +1,8 @@
 import React from 'react'
+import SingleCountryDescription from "./SingleCountryDescription.js"
 
 //This is the component that controls the logic and display of country info
 const CountryInfoDisplayer = ({arrayOfCountries}) => {
-
     if (arrayOfCountries.length > 10) {
         return (
             <div>
@@ -10,18 +10,30 @@ const CountryInfoDisplayer = ({arrayOfCountries}) => {
             </div>
         )    
     }
+
     else if (arrayOfCountries.length > 1) {
         return (
             <ul>
-                {arrayOfCountries.map(countryName => <li>countryName</li>)}
+                {arrayOfCountries.map(countryObject => {
+                    return <li key={countryObject.name}>{countryObject.name}</li>}
+                )}
             </ul>
         )
     }
 
+    else if (arrayOfCountries.length === 1) {
+        const countrySelected = arrayOfCountries[0];
+        return (
+            <SingleCountryDescription countrySelected={countrySelected}/>
+        )
+      }
+
     return (
-        <div>
-        </div>
+        <p>
+            There's no country with this name in the database
+        </p>
     )
-  }
+}
+    
   
   export default CountryInfoDisplayer

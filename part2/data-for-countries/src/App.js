@@ -11,7 +11,7 @@ function App() {
   //This is using the Controlled Component approach
   //Without this function, it would be a read-only input
   const handleSearchTextChange = (event) => {
-    setSearchText(event.target.value)
+    setSearchText(event.target.value.toLowerCase())
   }
 
   //The access point to the Rest Api
@@ -21,12 +21,24 @@ function App() {
     .then(countryData => setmatchingCountries(countryData))  
   }, [])
 
+    //Just the old terneary operator to see if the string it's empty 
+  const falseIfStringEmpty = str => str.length === 0 ? false : true
+
+  //this return the custom filter function 
+  const filterAboutCountryName = () => {
+    if (!falseIfStringEmpty(searchText)) return elem => elem
+
+    // return countryObject => countryObject.name.toLowerCase().includes(searchText);
+    const filah = countryObject => countryObject.name.toLowerCase().includes(searchText);
+    // console.log(matchingCountries.filter(filah));
+    return filah
+  }
 
   return (
     <div style={{margin: 10}}>
         <p>Find Countries</p>
         <SearchBar valueOfField={searchText} functionThatControlsChange={handleSearchTextChange}/>
-        <CountryInfoDisplayer arrayOfCountries={matchingCountries}/>
+        <CountryInfoDisplayer arrayOfCountries={matchingCountries.filter(filterAboutCountryName())}/>
     </div>
   );
 }
