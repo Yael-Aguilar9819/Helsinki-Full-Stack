@@ -28,9 +28,7 @@ function App() {
   const filterAboutCountryName = () => {
     if (!falseIfStringEmpty(searchText)) return elem => elem
 
-    // return countryObject => countryObject.name.toLowerCase().includes(searchText);
     const filah = countryObject => countryObject.name.toLowerCase().includes(searchText);
-    // console.log(matchingCountries.filter(filah));
     return filah
   }
 
@@ -38,7 +36,7 @@ function App() {
     <div style={{margin: 10}}>
         <p>Find Countries</p>
         <SearchBar valueOfField={searchText} functionThatControlsChange={handleSearchTextChange}/>
-        <CountryInfoDisplayer arrayOfCountries={matchingCountries.filter(filterAboutCountryName())}/>
+        <CountryInfoDisplayer arrayOfCountries={matchingCountries.filter(filterAboutCountryName())} functionSetText={setSearchText}/>
     </div>
   );
 }

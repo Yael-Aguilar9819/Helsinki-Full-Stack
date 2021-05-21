@@ -1,11 +1,12 @@
 import React from 'react'
 import CountryInList from "./CountryInList.js"
 
-const ListOfCountries = ({arrayOfCountries}) => {
+const ListOfCountries = ({arrayOfCountries, functionSetText}) => {
+
     return (
         <ul>
             {arrayOfCountries.map(countryObject => {
-                return <CountryInList key={countryObject.name} countryObject={countryObject}/>
+                return <CountryInList key={countryObject.name} countryObject={countryObject} functionSetText={functionSetText}/>
             } 
             )}
         </ul>
