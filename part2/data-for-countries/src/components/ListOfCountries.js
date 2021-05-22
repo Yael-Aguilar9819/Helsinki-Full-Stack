@@ -7,15 +7,12 @@ const ListOfCountries = ({arrayOfCountries}) => {
     const [showingSingleCountry, setshowingSingleCountry] = useState(false);
     const [countryToShow, setCountryToShow] = useState("");
 
-    
     //Using useEffect we can always have an "observer" than can rerender the component if necesary
     useEffect(() => {
         if (countryToShow !== "") {
             setshowingSingleCountry(true);
         }
     }, [countryToShow])
-    
-
 
     //this is simple, if it's not showing a single country, it list the possible countries
     if (showingSingleCountry === false) {
