@@ -2,6 +2,7 @@ import React from 'react'
 import WeatherCapitalCity from './WeatherCapitalCity'
 
 
+//This is what describes the info when there's only a single country, using it's respective object
 const SingleCountryDescription = ({countrySelected}) => {
     const styleOfImg = {
         maxWidth: 150, 
