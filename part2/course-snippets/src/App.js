@@ -42,19 +42,20 @@ const App = () => {
       important: Math.random() < 0.5,
     }
 
-      methodToBackendReturnJson('http://localhost:3001/notes', "POST", JSON.stringify(noteObject))
+      // methodToBackendReturnJson('http://localhost:3001/notes', "POST", JSON.stringify(noteObject))
+      noteService.create(noteObject)
         .then(data => setNotes(notes.concat(data)))
 
     setNewNote("")
   }
 
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important}
 
     //The funciton works using the ol' async, then (pun intended) uses the Json response to check the notes and change it
-    methodToBackendReturnJson(url, "PUT", JSON.stringify(changedNote))
+    // methodToBackendReturnJson(url, "PUT", JSON.stringify(changedNote))
+    noteService.update(id, changedNote)
       .then(data => setNotes(notes.map(note => note.id !== id ? note : data)))
   }
 

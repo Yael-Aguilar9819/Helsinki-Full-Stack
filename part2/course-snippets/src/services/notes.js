@@ -1,5 +1,6 @@
 const baseUrl = 'http://localhost:3001/notes'
 
+//This is the basic method
 const methodToBackendReturnJson = async (url, method, body) => {
     const response = await fetch(url, {
                             method: method,
@@ -26,11 +27,13 @@ const create = newObject => {
 }
 
 const update = (id, newObject) => {
-    return methodToBackendReturnJson(baseUrl + id, "PUT", JSON.stringify(newObject));
+    return methodToBackendReturnJson(`${baseUrl}/${id}`, "PUT", JSON.stringify(newObject));
 }
 
-export default { 
-  getAll: getAll, 
-  create: create, 
-  update: update 
+const noteServiceAsync = {
+    getAll: getAll, 
+    create: create, 
+    update: update
 }
+
+export default noteServiceAsync
