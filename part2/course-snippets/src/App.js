@@ -1,36 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
-
+import noteService from './services/notes'
 
 const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true) 
 
-  const methodToBackendReturnJson = async (url, method, body) => {
-    const response = await fetch(url, {
-                            method: method,
-                            headers: {
-                              'Accept': 'application/json',
-                              'Content-Type': 'application/json'
-                            },
-                            body: body
-                          })
+  // const methodToBackendReturnJson = async (url, method, body) => {
+  //   const response = await fetch(url, {
+  //                           method: method,
+  //                           headers: {
+  //                             'Accept': 'application/json',
+  //                             'Content-Type': 'application/json'
+  //                           },
+  //                           body: body
+  //                         })
 
-    return response.json();
+  //   return response.json();
+  // }
 
-  }
-
-  const getJson = async url => {
-    const resp = await fetch(url)
-    if (resp.status !== 200) {
-      throw new Error(`cannot fetch data with error code: ${resp.status}`);
-    }
-    return resp.json();
-  }
-  
   useEffect(() => {
-    getJson('http://localhost:3001/notes')
+    noteService.getAll()
       .then(response => setNotes(response))
       .catch(err => {
         console.log(err)
@@ -50,16 +41,6 @@ const App = () => {
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
     }
-
-    // fetch('http://localhost:3001/notes', {
-    //   method: "POST",
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(noteObject)
-    // }).then(resp => resp.json())
-    //   .then(data => setNotes(notes.concat(data)))
 
       methodToBackendReturnJson('http://localhost:3001/notes', "POST", JSON.stringify(noteObject))
         .then(data => setNotes(notes.concat(data)))
