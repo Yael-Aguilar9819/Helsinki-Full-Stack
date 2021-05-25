@@ -7,22 +7,10 @@ const App = () => {
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true) 
 
-  // const methodToBackendReturnJson = async (url, method, body) => {
-  //   const response = await fetch(url, {
-  //                           method: method,
-  //                           headers: {
-  //                             'Accept': 'application/json',
-  //                             'Content-Type': 'application/json'
-  //                           },
-  //                           body: body
-  //                         })
-
-  //   return response.json();
-  // }
-
   useEffect(() => {
     noteService.getAll()
-      .then(response => setNotes(response))
+      .then(response => {
+        setNotes(response)})
       .catch(err => {
         console.log(err)
         setNotes([])

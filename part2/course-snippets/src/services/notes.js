@@ -10,7 +10,7 @@ const methodToBackendReturnJson = async (url, method, body) => {
                             },
                             body: body
                           })
-
+       
     return response.json();
 }
 
@@ -31,9 +31,9 @@ const update = (id, newObject) => {
 }
 
 const noteServiceAsync = {
-    getAll: getAll, 
-    create: create, 
-    update: update
+    getAll, 
+    create, 
+    update
 }
 
 export default noteServiceAsync
