@@ -3,29 +3,26 @@ import SubmitButton from './components/SubmitButton'
 import InputText from './components/InputText'
 import PersonForm from './components/PersonForm'
 import PeopleDisplay from './components/PeopleDisplay'
+import personsInfoService from './services/numbersBackend'
 
+//This is the main App, when the logic lives
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
-  const [nameToSearch, setNameToSearch] = useState('')
+  const [ nameToSearch, setNameToSearch ] = useState('')
 
   
-  const getJson = async url => {
-    const resp = await fetch(url)
-    if (resp.status !== 200) {
-      throw new Error(`cannot fetch data with error code: ${resp.status}`);
-    }
-    return resp.json();
-  }
+  //This is how the app starts, fetching all the persons info 
   useEffect(() => {
-    getJson('http://localhost:3001/persons')
+    personsInfoService.getAll()
       .then(personsJson => setPersons(personsJson))
       .catch(err => {
         console.log(err)
       })
   }, [])
 
+  //This is using the controlled-component approach
   const handleSearchBoxChange = event => {
     setNameToSearch(event.target.value)
   }
@@ -38,6 +35,7 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  //It's the same as before, just added the server communication 
   const addPersons = (event) => {
     event.preventDefault()
 
@@ -51,6 +49,9 @@ const App = () => {
       name : newName,
       number : newNumber
     }
+    personsInfoService.sendNewPersonInfo(newObjectPerson)
+      .then(resp => console.log(resp))
+
     setPersons(persons.concat(newObjectPerson))
     setNewName("")
     setNewNumber("")
