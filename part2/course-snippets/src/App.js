@@ -30,7 +30,6 @@ const App = () => {
       important: Math.random() < 0.5,
     }
 
-      // methodToBackendReturnJson('http://localhost:3001/notes', "POST", JSON.stringify(noteObject))
       noteService.create(noteObject)
         .then(data => setNotes(notes.concat(data)))
 
@@ -42,9 +41,14 @@ const App = () => {
     const changedNote = { ...note, important: !note.important}
 
     //The funciton works using the ol' async, then (pun intended) uses the Json response to check the notes and change it
-    // methodToBackendReturnJson(url, "PUT", JSON.stringify(changedNote))
     noteService.update(id, changedNote)
       .then(data => setNotes(notes.map(note => note.id !== id ? note : data)))
+      .catch(error => {
+        alert(
+          `the note '${note.content}' was already deleted from server`
+        )
+        setNotes(notes.filter(n => n.id !== id))
+      })
   }
 
   const handleNoteChange = (event) => {
