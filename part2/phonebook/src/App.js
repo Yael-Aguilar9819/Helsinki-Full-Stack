@@ -71,6 +71,7 @@ const App = () => {
   }
 
 
+  //The main app application rendering everything
   return (
     <div>
       <h2>Phonebook</h2>
