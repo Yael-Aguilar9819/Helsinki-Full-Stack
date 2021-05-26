@@ -39,16 +39,18 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
+    const newObjectPerson = {
+      name : newName,
+      number : newNumber
+    }
+
+    //We will change the functionaly of this part of the function
     const found = trueIfStringFound(newName, persons.map(person => person.name))
     if (found) {
       window.alert(`${newName} is already added to phonebook`) 
       return 0
     }
 
-    const newObjectPerson = {
-      name : newName,
-      number : newNumber
-    }
 
     //Changed this, so the personObject will have the ID from the start
     personsInfoService.sendNewPersonInfo(newObjectPerson)
