@@ -49,17 +49,30 @@ const App = () => {
       name : newName,
       number : newNumber
     }
+
+    //Changed this, so the personObject will have the ID from the start
     personsInfoService.sendNewPersonInfo(newObjectPerson)
-      .then(resp => console.log(resp))
+      .then(resp => {
+        newObjectPerson.id = resp.id
+      })
 
     setPersons(persons.concat(newObjectPerson))
     setNewName("")
     setNewNumber("")
   }
 
-  const deletePerson = (event) => {
-    event.preventDefault()
-    console.log(event.target.value);
+  //This functions deletes person info, complete
+  const deletePerson = (personObject) => {
+    const userConfirmation = window.confirm(`Delete ${personObject.name}?`)
+    //will suspend the funciton if the user says simply no
+    if (!userConfirmation) return 0;
+
+    personsInfoService.deletePerson(personObject.id)
+      .then(resp => console.log("Success!"))
+      .catch(err => console.log(err))
+
+    const newPersons = persons.filter(person => person.id !== personObject.id);
+    setPersons(newPersons);
   }
 
   const trueIfStringFound = (stringToFind, arrayOfString) => {
@@ -88,7 +101,7 @@ const App = () => {
         submitButton={<SubmitButton onClickFunc={addPerson} text={"add"}/>}
       />
       <h2>Numbers</h2>
-      <PeopleDisplay personsArray={persons} functionDelete={deletePerson} filterToSearch={filterToSearch}/>
+      <PeopleDisplay personsArray={persons} deleteFunction={deletePerson} filterToSearch={filterToSearch}/>
     </div>
   )
 }
