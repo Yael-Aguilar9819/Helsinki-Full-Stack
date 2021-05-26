@@ -9,7 +9,7 @@ import personsInfoService from './services/numbersBackend'
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')  
   const [ nameToSearch, setNameToSearch ] = useState('')
 
   
@@ -36,7 +36,7 @@ const App = () => {
   }
 
   //It's the same as before, just added the server communication 
-  const addPersons = (event) => {
+  const addPerson = (event) => {
     event.preventDefault()
 
     const found = trueIfStringFound(newName, persons.map(person => person.name))
@@ -55,6 +55,11 @@ const App = () => {
     setPersons(persons.concat(newObjectPerson))
     setNewName("")
     setNewNumber("")
+  }
+
+  const deletePerson = (event) => {
+    event.preventDefault()
+    console.log(event.target.value);
   }
 
   const trueIfStringFound = (stringToFind, arrayOfString) => {
@@ -80,10 +85,10 @@ const App = () => {
       <PersonForm
         textInput1={<InputText functionControlChange={handleNameChange} currentInputControl={newName} textDisplay={"name"}/>} 
         textInput2={<InputText functionControlChange={handleNumberChange} currentInputControl={newNumber} textDisplay={"number"}/>} 
-        submitButton={<SubmitButton onClickFunc={addPersons} text={"add"}/>}
+        submitButton={<SubmitButton onClickFunc={addPerson} text={"add"}/>}
       />
       <h2>Numbers</h2>
-      <PeopleDisplay personsArray={persons} filterToSearch={filterToSearch}/>
+      <PeopleDisplay personsArray={persons} functionDelete={deletePerson} filterToSearch={filterToSearch}/>
     </div>
   )
 }

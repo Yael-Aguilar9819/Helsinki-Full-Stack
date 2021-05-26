@@ -1,5 +1,6 @@
 const baseUrl = "http://localhost:3001/persons";
 
+// return methodToBackendReturnJson(`${baseUrl}/${id}`, "PUT", JSON.stringify(newObject));
 
 //This is simply our abstraction layer to the backend, that's how we will comunicate to the backend, whataever it is
 

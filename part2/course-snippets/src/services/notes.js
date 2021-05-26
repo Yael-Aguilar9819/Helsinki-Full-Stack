@@ -31,13 +31,6 @@ const getAll = async () => {
   return respFormat.concat(nonExisting);
 }
 
-// const getAll = async () => {
-//     const resp = await fetch(baseUrl);
-//     if (resp.status !== 200) {
-//       throw new Error(`cannot fetch data with error code: ${resp.status}`);
-//     }
-//     return resp.json();
-// }
 
 const create = newObject => {
   return methodToBackendReturnJson(baseUrl, "POST", JSON.stringify(newObject));
