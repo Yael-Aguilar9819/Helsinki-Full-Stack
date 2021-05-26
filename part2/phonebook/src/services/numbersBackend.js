@@ -40,10 +40,16 @@ const deletePerson = async personID => {
     return responseFromServer;
 }
 
+const modifyPersonInfo = async personObject => {
+    const responseFromServer = await methodToBackendJsonResponse(`${baseUrl}/${personObject.id}`, "PUT", personObject);  
+    return responseFromServer;
+}
+
 //Cleaner with object initializer ES2015
 const allFunctions = {
     getAll,
     sendNewPersonInfo,
+    modifyPersonInfo,
     deletePerson
 }
 

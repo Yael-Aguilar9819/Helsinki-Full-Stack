@@ -44,23 +44,42 @@ const App = () => {
       number : newNumber
     }
 
-    //We will change the functionaly of this part of the function
-    const found = trueIfStringFound(newName, persons.map(person => person.name))
-    if (found) {
-      window.alert(`${newName} is already added to phonebook`) 
-      return 0
+    //Normalized to lowercase
+    const indexOfName = persons.findIndex(personName => personName.name.toLowerCase() === newName.toLowerCase())
+
+    //If it's different than -1, it means that it doesnt exit in the list
+    if (indexOfName !== -1) {
+      const userConfirmation = window.confirm(`${newObjectPerson.name} is already added to phonebook, replace the old number with a new one?`)
+      if (userConfirmation === false) return 0
+
+      newObjectPerson.id = persons[indexOfName].id;
+      modifyPersonInfoInServerAndFront(newObjectPerson, indexOfName, persons);
+    } 
+    else {
+      //Changed this, so the personObject will have the ID from the start
+      personsInfoService.sendNewPersonInfo(newObjectPerson)
+        .then(resp => {
+          newObjectPerson.id = resp.id
+        })
+
+      setPersons(persons.concat(newObjectPerson))
     }
 
-
-    //Changed this, so the personObject will have the ID from the start
-    personsInfoService.sendNewPersonInfo(newObjectPerson)
-      .then(resp => {
-        newObjectPerson.id = resp.id
-      })
-
-    setPersons(persons.concat(newObjectPerson))
     setNewName("")
     setNewNumber("")
+  }
+
+  
+  const modifyPersonInfoInServerAndFront = (newObjectPerson, indexOfName, personsArray) => {
+
+    //doing it the inmutable way
+    const newPersonsArray = personsArray.slice(0, indexOfName)
+      .concat(newObjectPerson)
+      .concat(personsArray.slice(indexOfName + 1))
+    
+      personsInfoService.modifyPersonInfo(newObjectPerson)
+      .then(resp =>  console.log(resp))
+    setPersons(newPersonsArray)
   }
 
   //This functions deletes person info, complete
@@ -75,11 +94,6 @@ const App = () => {
 
     const newPersons = persons.filter(person => person.id !== personObject.id);
     setPersons(newPersons);
-  }
-
-  const trueIfStringFound = (stringToFind, arrayOfString) => {
-    if (arrayOfString.findIndex(elem => elem === stringToFind) === -1) return false
-    return true 
   }
 
   const falseIfStringEmpty = str => str.length === 0 ? false : true
