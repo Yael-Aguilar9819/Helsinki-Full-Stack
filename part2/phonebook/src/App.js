@@ -89,7 +89,7 @@ const App = () => {
     if (!userConfirmation) return 0;
 
     personsInfoService.deletePerson(personObject.id)
-      .then(resp => console.log("Success!"))
+      .then(resp => console.log(`Success deleting ${personObject.name}!`))
       .catch(err => console.log(err))
 
     const newPersons = persons.filter(person => person.id !== personObject.id);
