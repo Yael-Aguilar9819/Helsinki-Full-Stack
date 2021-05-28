@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import SubmitButton from './components/SubmitButton'
 import InputText from './components/InputText'
 import PersonForm from './components/PersonForm'

@@ -1,4 +1,3 @@
-import React from 'react'
 import PersonName from './PersonInfo'
 import FunctionButton from './FunctionButton.js'
 
