@@ -13,7 +13,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')  
   const [ nameToSearch, setNameToSearch ] = useState('')
-  const [ notiMessage, setNotiMessage ] = useState(null)
+  const [ messageInfo, setMessageInfo ] = useState({message:null})
 
   
   //This is how the app starts, fetching all the persons info 
@@ -62,7 +62,7 @@ const App = () => {
       personsInfoService.sendNewPersonInfo(newObjectPerson)
         .then(resp => {
           newObjectPerson.id = resp.id
-          showAddMessageForXSeconds(`Added ${newObjectPerson.name}`, 4)
+          showMessageForXSeconds(`Added ${newObjectPerson.name}.`, 2, "positive")
         })
       setPersons(persons.concat(newObjectPerson))
     }
@@ -82,12 +82,17 @@ const App = () => {
     setPersons(newPersonsArray)
   }
 
-  const showAddMessageForXSeconds = (messageToShow, numberOfSeconds) => {
-    setNotiMessage(messageToShow);
-    setTimeout(() => setNotiMessage(null), numberOfSeconds*1500);
+  //This functions controls the component and the info that goes inside
+  //Meaning its about if its neagtive or positive, trying to find a better name
+  const showMessageForXSeconds = (messageToShow, numberOfSeconds, meaning) => {
+    setMessageInfo({
+      message: messageToShow, status: meaning
+    });
+
+    setTimeout(() => setMessageInfo({message:null}), numberOfSeconds*1500);
   }
 
-  //This functions deletes person info, complete
+  //This functions deletes person info,
   const deletePerson = (personObject) => {
     const userConfirmation = window.confirm(`Delete ${personObject.name}?`)
     //will suspend the funciton if the user says simply no
@@ -95,7 +100,9 @@ const App = () => {
 
     personsInfoService.deletePerson(personObject.id)
       .then(resp => console.log(`Success deleting ${personObject.name}!`))
-      .catch(err => console.log(err))
+      .catch(err => {
+        showMessageForXSeconds(`Information of ${personObject.name} has already been removed from server.`, 3, "negative")
+        console.log(err)})
 
     const newPersons = persons.filter(person => person.id !== personObject.id);
     setPersons(newPersons);
@@ -114,7 +121,7 @@ const App = () => {
   return (
     <div className={styles.mainContainer}>
       <h2>Phonebook</h2>
-      <NotificationMessage message={notiMessage}/>
+      <NotificationMessage messageInfo={messageInfo}/>
       <InputText functionControlChange={handleSearchBoxChange} currentInputControl={nameToSearch} textDisplay={"filter shown with"}/>      
       <h2>Add a new person contact info</h2>
       <PersonForm

@@ -15,21 +15,24 @@ const methodToBackendJsonResponse = async (url, method, objectToSend) => {
                         },
                         body: JSON.stringify(objectToSend)
                     })
-    return respFromServer.json()
+    //This guarantees the server response it's between 0 and 200
+    if (respFromServer.status - 200 >= 99) {
+        throw new Error(`cannot fetch data with error code: ${respFromServer.status}`);
+    }      
+    return respFromServer.json();
 }
 
 const getAll = async () => {
     const resp = await fetch(baseUrl);
-    const data = await resp.json();
     if (resp.status !== 200) {
         throw new Error(`cannot fetch data with error code: ${resp.status}`);
-      }  
-
+    }  
+    const data = await resp.json();
     return data;
 }
 
 
-//The simple POST method using async, maybe restructuring later into a helper and more general function
+//The simple POST method using async, restructured to make it easier to use
 const sendNewPersonInfo = async (personInfoObject) => {
     const responseFromServer = await methodToBackendJsonResponse(baseUrl, "POST", personInfoObject);
     return responseFromServer;
