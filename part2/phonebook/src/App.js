@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import styles from './components/App.module.css'
 import SubmitButton from './components/SubmitButton'
 import InputText from './components/InputText'
 import PersonForm from './components/PersonForm'
@@ -61,10 +62,10 @@ const App = () => {
       personsInfoService.sendNewPersonInfo(newObjectPerson)
         .then(resp => {
           newObjectPerson.id = resp.id
+          showAddMessageForXSeconds(`Added ${newObjectPerson.name}`, 4)
         })
       setPersons(persons.concat(newObjectPerson))
     }
-    showAddMessageForXSeconds(`Added ${newObjectPerson.name}`, 4)
     setNewName("")
     setNewNumber("")
   }
@@ -83,7 +84,7 @@ const App = () => {
 
   const showAddMessageForXSeconds = (messageToShow, numberOfSeconds) => {
     setNotiMessage(messageToShow);
-    // setTimeout(() => setNotiMessage(null), numberOfSeconds*3000);
+    setTimeout(() => setNotiMessage(null), numberOfSeconds*1500);
   }
 
   //This functions deletes person info, complete
@@ -111,7 +112,7 @@ const App = () => {
 
   //The main app application rendering everything
   return (
-    <div>
+    <div className={styles.mainContainer}>
       <h2>Phonebook</h2>
       <NotificationMessage message={notiMessage}/>
       <InputText functionControlChange={handleSearchBoxChange} currentInputControl={nameToSearch} textDisplay={"filter shown with"}/>      
