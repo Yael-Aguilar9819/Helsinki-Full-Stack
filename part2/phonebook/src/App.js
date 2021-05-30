@@ -4,6 +4,7 @@ import InputText from './components/InputText'
 import PersonForm from './components/PersonForm'
 import PeopleDisplay from './components/PeopleDisplay'
 import personsInfoService from './services/numbersBackend'
+import NotificationMessage from './components/NotificationMessage';
 
 //This is the main App, when the logic lives
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')  
   const [ nameToSearch, setNameToSearch ] = useState('')
+  const [ notiMessage, setNotiMessage ] = useState(null)
 
   
   //This is how the app starts, fetching all the persons info 
@@ -37,7 +39,7 @@ const App = () => {
 
   //It's the same as before, just added the server communication 
   const addPerson = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const newObjectPerson = {
       name : newName,
@@ -54,24 +56,21 @@ const App = () => {
 
       newObjectPerson.id = persons[indexOfName].id;
       modifyPersonInfoInServerAndFront(newObjectPerson, indexOfName, persons);
-    } 
-    else {
+    } else {
       //Changed this, so the personObject will have the ID from the start
       personsInfoService.sendNewPersonInfo(newObjectPerson)
         .then(resp => {
           newObjectPerson.id = resp.id
         })
-
       setPersons(persons.concat(newObjectPerson))
     }
-
+    showAddMessageForXSeconds(`Added ${newObjectPerson.name}`, 4)
     setNewName("")
     setNewNumber("")
   }
 
   
   const modifyPersonInfoInServerAndFront = (newObjectPerson, indexOfName, personsArray) => {
-
     //doing it the inmutable way
     const newPersonsArray = personsArray.slice(0, indexOfName)
       .concat(newObjectPerson)
@@ -80,6 +79,11 @@ const App = () => {
       personsInfoService.modifyPersonInfo(newObjectPerson)
       .then(resp =>  console.log(resp))
     setPersons(newPersonsArray)
+  }
+
+  const showAddMessageForXSeconds = (messageToShow, numberOfSeconds) => {
+    setNotiMessage(messageToShow);
+    // setTimeout(() => setNotiMessage(null), numberOfSeconds*3000);
   }
 
   //This functions deletes person info, complete
@@ -109,6 +113,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <NotificationMessage message={notiMessage}/>
       <InputText functionControlChange={handleSearchBoxChange} currentInputControl={nameToSearch} textDisplay={"filter shown with"}/>      
       <h2>Add a new person contact info</h2>
       <PersonForm
