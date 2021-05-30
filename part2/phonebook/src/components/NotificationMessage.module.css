@@ -1,15 +1,17 @@
-.positiveMessage {
-  color: green;
+.basicMessage {
   height: 25px;
   margin: 1%;
   padding: 0;
 }
 
+.positiveMessage {
+  composes: basicMessage;
+  color: green;
+}
+
 .negativeMessage {
+  composes: basicMessage;
   color: red;
-  height: 25px;
-  margin: 1%;
-  padding: 0;
 }
 
 
