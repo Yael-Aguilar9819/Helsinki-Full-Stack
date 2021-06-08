@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 // "start": "node index.js"
 
 
@@ -42,6 +44,15 @@ app.get('/api/notes/:id', (request, response) => {
     response.status(404).end()
   }
 })
+
+app.post('/api/notes', (request, response) => {
+  const note = request.body
+  console.log(request.get)
+  console.log(note)
+  
+  response.json(note)
+})
+
 
 app.delete('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id)
