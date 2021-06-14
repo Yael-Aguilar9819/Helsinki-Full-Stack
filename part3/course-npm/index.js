@@ -1,8 +1,9 @@
 const express = require('express')
 const app = express()
-
 app.use(express.json())
 
+const cors = require('cors')
+app.use(cors())
 //Middleware function
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -10,7 +11,7 @@ const requestLogger = (request, response, next) => {
   console.log('Body:  ', request.body)
   console.log('---')
   next()
-}
+} 
 
 app.use(requestLogger)
 
