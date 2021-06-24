@@ -1,0 +1,17 @@
+//This is the entry-point
+GET http://localhost:3001/api/notes
+
+###
+GET http://localhost:3001/api/notes/1
+
+### To create a new note
+POST http://localhost:3001/api/notes
+content-type: application/json
+
+{
+    "content" : "content of the new note",
+    "important" : true
+}
+
+### delete a note
+DELETE http://localhost:3001/api/notes/1
