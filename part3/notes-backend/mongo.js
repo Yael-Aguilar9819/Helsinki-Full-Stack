@@ -39,9 +39,15 @@ const note3 = new Note({
   important: true,
 })
 
+Note.find({}).then(result => {
+  result.forEach(note => {
+    console.log(note)
+  })
+  mongoose.connection.close()
+})
 //changed to save more than 1 note at a time, si the DB is hitted less
-Note.insertMany([note1, note2, note3])
-  .then(result => {
-    console.log("initial notes saved ", result)
-    mongoose.connection.close()
-}).catch(err => console.log(err))
+// Note.insertMany([note1, note2, note3])
+//   .then(result => {
+//     console.log("initial notes saved ", result)
+//     mongoose.connection.close()
+// }).catch(err => console.log(err))
