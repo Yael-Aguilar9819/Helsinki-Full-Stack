@@ -49,7 +49,6 @@ app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
     response.json(notes)
   })
-  // response.json(notes);
 })
 
 app.get('/api/notes/:id', (request, response) => {
@@ -80,14 +79,14 @@ app.post('/api/notes', (request, response) => {
     })
   }
 
-  const newNote = {
+  const newNote = new Note({
     content: body.content,
     important: body.important || false,
     date: new Date(),
-    id: generateId(),
-  }
+    // id: generateId(),
+  })
 
-  note.save().then(savedNote => {
+  newNote.save().then(savedNote => {
     response.json(savedNote)
   })
 })
