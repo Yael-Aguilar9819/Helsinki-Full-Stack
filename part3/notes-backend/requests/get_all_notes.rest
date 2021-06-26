@@ -1,8 +1,9 @@
 //This is the entry-point
 GET http://localhost:3001/api/notes
 
+
 ###
-GET http://localhost:3001/api/notes/1
+GET http://localhost:3001/api/notes/60d44f1eeea68715ecfaa1fd
 
 ### To create a new note
 POST http://localhost:3001/api/notes
@@ -15,3 +16,6 @@ content-type: application/json
 
 ### delete a note
 DELETE http://localhost:3001/api/notes/1
+
+### unknown default endpoint
+GET http://localhost:3001/dsdsa
