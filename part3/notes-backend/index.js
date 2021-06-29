@@ -30,12 +30,14 @@ app.get('/api/notes', (request, response) => {
   })
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id).then(note => {
-    response.json(note)
-  }).catch(err => {
-    response.status(404).end()
-  })
+    if (note) {
+      response.json(note)
+    } else {
+      response.status(404).end()
+    }
+  }).catch(err => next(error))
 })
 
 
@@ -73,6 +75,19 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+// this has to be the last loaded middleware.
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

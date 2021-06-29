@@ -1,7 +1,6 @@
 //This is the entry-point
 GET http://localhost:3001/api/notes
 
-
 ###
 GET http://localhost:3001/api/notes/60d44f1eeea68715ecfaa1fd
 
