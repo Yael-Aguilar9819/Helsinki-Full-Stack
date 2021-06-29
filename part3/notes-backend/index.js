@@ -1,10 +1,12 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+
 const app = express()
 app.use(express.json())
 
 app.use(express.static('build'))
 
-const cors = require('cors')
 app.use(cors())
 //Middleware function
 const requestLogger = (request, response, next) => {
@@ -17,7 +19,6 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger)
 
-const mongoose = require('mongoose')
 const Note = require('./models/note.js')
 
 app.get('/', (request, response) => {
@@ -37,7 +38,7 @@ app.get('/api/notes/:id', (request, response, next) => {
     } else {
       response.status(404).end()
     }
-  }).catch(err => next(error))
+  }).catch(err => next(err))
 })
 
 
@@ -63,17 +64,34 @@ app.post('/api/notes', (request, response) => {
 })
 
 app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
-  notes = notes.filter(note => note.id !== id)
+  Note.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end();
+    }).catch(error => next(error))
 
   response.status(204).end();
 })
 
-//Unkwon url response
+app.put('/api/notes/:id', (request, response, next) => {
+  const body = request.body
+  console.log(body);
+  const note = {
+    content: body.content,
+    important: body.important,
+  }
+
+  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedNote => {
+      console.log(updatedNote);
+      response.json(updatedNote)
+    })
+    .catch(error => next(error))
+})
+
+//Unknown url response
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
-
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
@@ -82,7 +100,6 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   } 
-
   next(error)
 }
 

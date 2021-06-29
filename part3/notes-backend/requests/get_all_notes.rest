@@ -2,19 +2,29 @@
 GET http://localhost:3001/api/notes
 
 ###
-GET http://localhost:3001/api/notes/60d44f1eeea68715ecfaa1fd
+GET http://localhost:3001/api/notes/60d44f1eeea68715ecfaa1fe
 
 ### To create a new note
 POST http://localhost:3001/api/notes
 content-type: application/json
 
 {
-    "content" : "content of the new note",
+    "content" : "HTML is the basis of the whole internet",
     "important" : true
 }
 
 ### delete a note
-DELETE http://localhost:3001/api/notes/1
+DELETE http://localhost:3001/api/notes/60db987cd70c4c0a7828f06a
 
 ### unknown default endpoint
 GET http://localhost:3001/dsdsa
+
+
+###
+PUT http://localhost:3001/api/notes/60d44f1eeea68715ecfaa1fe
+content-type: application/json
+
+{
+    "content" : "Browser can only use Javascript",
+    "important" : false
+}
