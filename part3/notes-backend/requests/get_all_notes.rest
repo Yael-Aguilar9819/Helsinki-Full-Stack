@@ -14,7 +14,7 @@ content-type: application/json
 }
 
 ### delete a note
-DELETE http://localhost:3001/api/notes/60db987cd70c4c0a7828f06a
+DELETE http://localhost:3001/api/notes/60dfed0f62ee6b3bfcd0f53e
 
 ### unknown default endpoint
 GET http://localhost:3001/dsdsa
