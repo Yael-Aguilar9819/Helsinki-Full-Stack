@@ -7,6 +7,8 @@
     "start": "node index.js",
     "dev": "node_modules/.bin/nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix --ext .js,.jsx .",
     "build:ui": "rm -rf build && cd ../../part2/frontend/ && npm run build --prod && cp -r build ../../part3/notes-backend",
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push heroku master && npm run deploy",
