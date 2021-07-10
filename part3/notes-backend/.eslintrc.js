@@ -1,35 +1,30 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'node': true,
-    'commonjs': true,
-    'es2021': true
+  env: {
+    browser: true,
+    commonjs: true,
+    es2021: true,
+    node: true,
   },
-  'extends': 'eslint:recommended',
-  'parserOptions': {
-    'ecmaVersion': 12
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 12,
   },
-  'rules': {
-    'eqeqeq': 'error',
-    'comma-spacing': [
-      'error',
-      { 'before': false, 'after': true }
-    ],
-    'indent': [
-      'error',
-      2
-    ],
+  plugins: [
+    'react',
+  ],
+  rules: {
+    'no-underscore-dangle': 'off',
+    'no-param-reassign': 'off',
+    'no-console': 'off',
     'linebreak-style': [
       'error',
-      'windows'
+      'windows',
     ],
-    'quotes': [
-      'error',
-      'single'
-    ],
-    'semi': [
-      'error',
-      'always'
-    ]
-  }
+  },
 };
