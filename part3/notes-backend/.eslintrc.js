@@ -1,6 +1,7 @@
 module.exports = {
   'env': {
     'browser': true,
+    'node': true,
     'commonjs': true,
     'es2021': true
   },
@@ -10,6 +11,10 @@ module.exports = {
   },
   'rules': {
     'eqeqeq': 'error',
+    'comma-spacing': [
+      'error',
+      { 'before': false, 'after': true }
+    ],
     'indent': [
       'error',
       2
