@@ -1,13 +1,23 @@
+const app = require('./app') // the actual Express application
+const http = require('http')
+const config = require('./utils/config')
+const logger = require('./utils/logger')
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-
 app.use(express.static('build'));
-
 app.use(cors());
+
+const server = http.createServer(app)
+
+server.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
+})
+
 // Middleware function
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method);
