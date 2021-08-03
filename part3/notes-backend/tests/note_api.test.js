@@ -1,29 +1,18 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
+const helper = require('./test_helper');
+const Note = require('../models/note');
 const app = require('../app');
 
 const api = supertest(app);
 
-const Note = require('../models/note');
-
-const initialNotes = [
-  {
-    content: 'HTML is easy',
-    date: new Date(),
-    important: false,
-  },
-  {
-    content: 'Browser can execute only Javascript',
-    date: new Date(),
-    important: true,
-  },
-];
-
 beforeEach(async () => {
   await Note.deleteMany({});
-  let noteObject = new Note(initialNotes[0]);
+
+  let noteObject = new Note(helper.initialNotes[0]);
   await noteObject.save();
-  noteObject = new Note(initialNotes[1]);
+
+  noteObject = new Note(helper.initialNotes[1]);
   await noteObject.save();
 });
 
@@ -38,57 +27,55 @@ test('there are two notes', async () => {
   const response = await api.get('/api/notes');
   // execution gets here only after the HTTP request is complete
   // the result of HTTP request is saved in variable response
-  expect(response.body).toHaveLength(initialNotes.length);
+  expect(response.body).toHaveLength(helper.initialNotes.length);
 });
 
 test('the first note is about HTTP methods', async () => {
   const response = await api.get('/api/notes');
 
-  const contents = response.body.map(r => r.content)
-  console.log(contents)
+  const contents = response.body.map((r) => r.content);
+  console.log(contents);
   expect(contents).toContain(
-    'Browser can execute only Javascript'
-  )
+    'Browser can execute only Javascript',
+  );
 });
 
 test('a valid note can be added', async () => {
   const newNote = {
     content: 'async/await simplifies making async calls',
     important: true,
-  }
+  };
 
   await api
     .post('/api/notes')
     .send(newNote)
     .expect(200)
-    .expect('Content-Type', /application\/json/)
+    .expect('Content-Type', /application\/json/);
 
-  const response = await api.get('/api/notes')
+  const notesAtEnd = await helper.notesInDb();
+  expect(notesAtEnd).toHaveLength(helper.initialNotes.length + 1);
 
-  const contents = response.body.map(r => r.content)
-
-  expect(response.body).toHaveLength(initialNotes.length + 1)
+  const contents = notesAtEnd.map((n) => n.content);
   expect(contents).toContain(
-    'async/await simplifies making async calls'
-  )
-})
+    'async/await simplifies making async calls',
+  );
+});
 
 test('note without content is not added', async () => {
   const newNote = {
-    important: true
-  }
+    important: true,
+  };
 
   await api
     .post('/api/notes')
     .send(newNote)
-    .expect(400)
+    .expect(400);
 
-  const response = await api.get('/api/notes')
+  const notesAtEnd = await helper.notesInDb();
 
-  expect(response.body).toHaveLength(initialNotes.length)
-})
+  expect(notesAtEnd).toHaveLength(helper.initialNotes.length);
+});
 
 afterAll(() => {
   mongoose.connection.close();
 });
-
