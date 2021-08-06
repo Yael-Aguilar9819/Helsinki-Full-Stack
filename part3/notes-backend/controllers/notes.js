@@ -26,13 +26,12 @@ notesRouter.post('/', async (request, response) => {
 
   const savedNote = await note.save();
   response.json(savedNote);
-  
 });
 
 notesRouter.delete('/:id', async (request, response) => {
-    await Note.findByIdAndRemove(request.params.id);
-    response.status(204).end();
-    // next(exception);
+  await Note.findByIdAndRemove(request.params.id);
+  response.status(204).end();
+  // next(exception);
 });
 
 notesRouter.put('/:id', (request, response, next) => {
