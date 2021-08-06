@@ -6,7 +6,7 @@ notesRouter.get('/', async (request, response) => {
   response.json(notes);
 });
 
-notesRouter.get('/:id', async (request, response, next) => {
+notesRouter.get('/:id', async (request, response) => {
   const noteRetrieved = await Note.findById(request.params.id);
   if (noteRetrieved) {
     response.json(noteRetrieved);
@@ -29,7 +29,7 @@ notesRouter.post('/', async (request, response) => {
   
 });
 
-notesRouter.delete('/:id', async (request, response, next) => {
+notesRouter.delete('/:id', async (request, response) => {
     await Note.findByIdAndRemove(request.params.id);
     response.status(204).end();
     // next(exception);
