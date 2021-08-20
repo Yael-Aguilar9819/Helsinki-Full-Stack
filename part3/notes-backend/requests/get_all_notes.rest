@@ -10,7 +10,8 @@ content-type: application/json
 
 {
     "content" : "HTML is the basis of the whole internet",
-    "important" : true
+    "important" : true,
+    "userId": "611f741cc617380f6c47e9d9"
 }
 
 ### delete a note
