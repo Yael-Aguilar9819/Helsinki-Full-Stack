@@ -4,9 +4,10 @@ GET http://localhost:3001/api/notes
 ###
 GET http://localhost:3001/api/notes/60d44f1eeea68715ecfaa1fe
 
-### To create a new note
+### To create a new note, all the token (meaning header, payload and verify signature)
 POST http://localhost:3001/api/notes
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3RSRVNUcyIsImlkIjoiNjEyM2I1OWFjZDM2NjYwMmJjY2RmMDNkIiwiaWF0IjoxNjI5Nzc4ODI1fQ.V-z6T0C6N2YI1IFtSMe4rq3p9nvu0aK4REr3e_wy1Vc
 
 {
     "content" : "HTML is the basis of the whole internet",
