@@ -1,26 +1,24 @@
 const bcrypt = require('bcrypt');
-const supertest = require('supertest');
 const mongoose = require('mongoose');
+const supertest = require('supertest');
 const helper = require('./test_helper');
+const User = require('../models/user');
+
 const app = require('../app');
 
 const api = supertest(app);
 
-const User = require('../models/user');
+beforeEach(async () => {
+  await User.deleteMany({});
+  const passwordHash = await bcrypt.hash('sekret', 10);
+  const user = new User({ username: 'root', passwordHash });
+  await user.save();
+});
 
 describe('when there is initially one user in db', () => {
-  beforeEach(async () => {
-    await User.deleteMany({});
-    console.log('welp');
-
-    const passwordHash = await bcrypt.hash('sekret', 10);
-    const user = new User({ username: 'root', passwordHash });
-
-    await user.save();
-  });
-
   test('creation fails with proper statuscode and message if username already taken', async () => {
     const usersAtStart = await helper.usersInDb();
+    console.log(usersAtStart);
 
     const newUser = {
       username: 'root',
@@ -62,7 +60,7 @@ describe('when there is initially one user in db', () => {
     expect(usernames).toContain(newUser.username);
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     mongoose.connection.close();
   });
 });

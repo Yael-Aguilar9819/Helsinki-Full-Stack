@@ -1,11 +1,10 @@
 const supertest = require('supertest');
 const mongoose = require('mongoose');
 const helper = require('./test_helper');
+const Note = require('../models/note');
 const app = require('../app');
 
 const api = supertest(app);
-
-const Note = require('../models/note');
 
 beforeEach(async () => {
   await Note.deleteMany({});
@@ -19,7 +18,6 @@ describe('when there is initially some notes saved', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
   });
-
   test('all notes are returned', async () => {
     const response = await api.get('/api/notes');
 
@@ -131,6 +129,6 @@ describe('deletion of a note', () => {
   });
 });
 
-afterAll(() => {
+afterAll(async () => {
   mongoose.connection.close();
 });
