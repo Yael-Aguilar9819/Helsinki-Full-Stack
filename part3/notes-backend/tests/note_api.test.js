@@ -1,10 +1,27 @@
 const supertest = require('supertest');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const helper = require('./test_helper');
 const Note = require('../models/note');
-const app = require('../app');
+const User = require('../models/user');
 
+const app = require('../app');
 const api = supertest(app);
+
+const userInfo = {};
+
+beforeAll(async () => {
+  await User.deleteMany({});
+  const passwordHash = await bcrypt.hash('sekret', 10);
+  const user = new User({ username: 'root', passwordHash });
+  await user.save();
+
+  const response = await api
+    .post('/api/login')
+    .send({ username: 'root', password: 'sekret' });
+  
+    userInfo['token'] = response.body.token;
+});
 
 beforeEach(async () => {
   await Note.deleteMany({});
@@ -53,9 +70,7 @@ describe('viewing a specific note', () => {
 
   test('fails with statuscode 404 if note does not exist', async () => {
     const validNonexistingId = await helper.nonExistingId();
-
-    console.log(validNonexistingId);
-
+    
     await api
       .get(`/api/notes/${validNonexistingId}`)
       .expect(404);
@@ -79,6 +94,7 @@ describe('addition of a new note', () => {
 
     await api
       .post('/api/notes')
+      .set('Authorization', 'bearer ' + userInfo['token'])
       .send(newNote)
       .expect(200)
       .expect('Content-Type', /application\/json/);
@@ -99,6 +115,7 @@ describe('addition of a new note', () => {
 
     await api
       .post('/api/notes')
+      .set('Authorization', 'bearer ' + userInfo['token'])
       .send(newNote)
       .expect(400);
 
