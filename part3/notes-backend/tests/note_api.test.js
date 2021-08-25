@@ -1,9 +1,7 @@
 const supertest = require('supertest');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const helper = require('./test_helper');
 const Note = require('../models/note');
-const User = require('../models/user');
 
 const app = require('../app');
 const api = supertest(app);
@@ -11,16 +9,7 @@ const api = supertest(app);
 const userInfo = {};
 
 beforeAll(async () => {
-  await User.deleteMany({});
-  const passwordHash = await bcrypt.hash('sekret', 10);
-  const user = new User({ username: 'root', passwordHash });
-  await user.save();
-
-  const response = await api
-    .post('/api/login')
-    .send({ username: 'root', password: 'sekret' });
-  
-    userInfo['token'] = response.body.token;
+    userInfo['token'] = await helper.tokenFromValidUser(api);
 });
 
 beforeEach(async () => {
