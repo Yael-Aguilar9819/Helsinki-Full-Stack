@@ -123,13 +123,19 @@ const App = () => {
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
+      {user === null ?
+      loginForm() :
+      <div>
+        <p>{user.username} logged-in</p>
+        {noteForm()}
+      </div>
+      }
+      <h2>Notes</h2>
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all' }
         </button>
       </div>
-      {user === null && loginForm()}
-      
       <ul>
         {notesToShow.map(note => 
           <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)}/>
