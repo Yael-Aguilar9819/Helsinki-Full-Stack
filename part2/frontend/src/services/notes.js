@@ -1,14 +1,20 @@
 // const baseUrl = 'https://polar-hamlet-28234.herokuapp.com/api/notes'
 const baseUrl = '/api/notes';
-// const baseUrl = 'http://localhost:3001/api/notes'
+
+let token = null
+
+const setToken = newToken => {
+  token = `bearer ${newToken}`
+}
 
 //This is the basic method
-const methodToBackendReturnJson = async (url, method, body) => {
+const methodToBackendReturnJson = async (url, method, body, token) => {
     const response = await fetch(url, {
                             method: method,
                             headers: {
                               'Accept': 'application/json',
-                              'Content-Type': 'application/json'
+                              'Content-Type': 'application/json',
+                              'Authorization': token
                             },
                             body: body
                           })
@@ -36,17 +42,18 @@ const getAll = async () => {
 
 
 const create = newObject => {
-  return methodToBackendReturnJson(baseUrl, "POST", JSON.stringify(newObject));
+  return methodToBackendReturnJson(baseUrl, "POST", JSON.stringify(newObject), token);
 }
 
 const update = (id, newObject) => {
-  return methodToBackendReturnJson(`${baseUrl}/${id}`, "PUT", JSON.stringify(newObject));
+  return methodToBackendReturnJson(`${baseUrl}/${id}`, "PUT", JSON.stringify(newObject), token);
 }
 
 const noteServiceAsync = {
     getAll, 
     create, 
-    update
+    update,
+    setToken
 }
 
 export default noteServiceAsync
