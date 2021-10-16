@@ -10,8 +10,8 @@ const login = async credentials => {
           },
           body : JSON.stringify(credentials)
         })
-    console.log(response.data)
-    return response.data
+
+    return await response.json()
 }
 
 export default { login }
