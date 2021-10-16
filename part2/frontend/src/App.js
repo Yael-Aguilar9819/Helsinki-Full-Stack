@@ -3,6 +3,7 @@ import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
 import noteService from './services/notes'
+import loginService from './services/login' 
 
 // Starting part 5, reworking the frontend
 
