@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
 import Footer from './components/Footer'
 import noteService from './services/notes'
 import loginService from './services/login' 
