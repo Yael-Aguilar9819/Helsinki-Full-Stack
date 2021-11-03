@@ -126,16 +126,6 @@ const App = () => {
     )
   }
 
-  const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input
-        value={newNote}
-        onChange={handleNoteChange}
-      />
-      <button type="submit">save</button>
-    </form>  
-  )
-
   return (
     <div>
       <h1>Notes</h1>
@@ -144,7 +134,13 @@ const App = () => {
       loginForm() :
       <div>
         <p>{user.username} logged-in</p>
-        {noteForm()}
+        <Togglable buttonLabel="new note">
+          <NoteForm
+            onSubmit={addNote}
+            value={newNote}
+            handleChange={handleNoteChange}
+          />
+        </Togglable>
       </div>
       }
       <h2>Notes</h2>
