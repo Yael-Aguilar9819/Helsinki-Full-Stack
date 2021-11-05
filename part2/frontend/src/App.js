@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
@@ -19,6 +19,8 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
+
+  const noteFormRef = useRef();
 
   useEffect(() => {
     noteService.getAll()
@@ -134,11 +136,9 @@ const App = () => {
       loginForm() :
       <div>
         <p>{user.username} logged-in</p>
-        <Togglable buttonLabel="new note">
+        <Togglable buttonLabel="new note" ref ={noteFormRef}>
           <NoteForm
-            onSubmit={addNote}
-            value={newNote}
-            handleChange={handleNoteChange}
+            createNote={addNote}
           />
         </Togglable>
       </div>
